@@ -1,0 +1,22 @@
+
+.nav {
+    
+    padding: 1.5rem 2rem;
+
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    border-bottom: 1px solid #2c2c2c;
+}
+
+.links {
+    flex: 1;
+    list-style-type: none;
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 2rem;
+}
