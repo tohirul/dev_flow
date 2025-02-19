@@ -1,8 +1,7 @@
-
 export default function page() {
-    return (
-        <main>
-            <h1>Ask Questions</h1>
-        </main>
-    );
+  return (
+    <section>
+      <h1>Ask Questions</h1>
+    </section>
+  );
 }

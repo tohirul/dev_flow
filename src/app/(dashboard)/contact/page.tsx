@@ -1,8 +1,7 @@
 export default function page() {
-    return (
-        <main>
-            <h1>Contact</h1>
-        </main>
-    );
-    
+  return (
+    <section>
+      <h1>Contact</h1>
+    </section>
+  );
 }
