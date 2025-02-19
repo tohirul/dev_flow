@@ -3,11 +3,10 @@ import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import { ClerkProvider } from '@clerk/nextjs';
-
 // import { auth } from '@/auth';
 // import { Toaster } from '@/components/ui/toaster';
-// import ThemeProvider from '@/context/Theme';
+import { ThemeProvider } from '@/context/ThemeProvider';
+import { ClerkProvider } from '@clerk/nextjs';
 
 import './globals.css';
 
@@ -49,9 +48,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
         </head>
         {/* <SessionProvider session={session}> */}
         <body className={`${inter.className} ${spaceGrotesk.variable} antialiased`}>
-          {/* <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange> */}
-          {children}
-          {/* </ThemeProvider> */}
+          <ThemeProvider>{children}</ThemeProvider>
           {/* <Toaster /> */}
         </body>
         {/* </SessionProvider> */}
