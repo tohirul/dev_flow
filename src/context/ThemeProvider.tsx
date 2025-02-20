@@ -1,36 +1,53 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 interface ThemeContextType {
   mode: string;
-  setMode: (mode: string) => void;
+  toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setMode] = useState('');
+  const [mode, setMode] = useState(''); // Default value is empty until initialized
 
+  // Set initial theme based on localStorage or default to light
   useEffect(() => {
-    const handleChange = () => {
-      if (mode === 'dark') {
-        setMode('light');
-        window.localStorage.setItem('theme', 'light');
-        document.documentElement.classList.add('light');
+    const storedMode = window.localStorage.getItem('theme') || 'light';
+    setMode(storedMode);
+
+    if (storedMode === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  // Use `useMemo` to avoid recreating the context value object on every render
+  const contextValue = useMemo(() => {
+    // Toggle between light and dark mode
+    const toggleMode = () => {
+      const newMode = mode === 'dark' ? 'light' : 'dark';
+      setMode(newMode);
+      window.localStorage.setItem('theme', newMode);
+
+      if (newMode === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
       } else {
-        setMode('dark');
-        window.localStorage.setItem('theme', 'dark');
+        document.documentElement.classList.add('light');
         document.documentElement.classList.remove('dark');
       }
     };
 
-    handleChange();
+    return { mode, toggleMode };
   }, [mode]);
 
-  return <ThemeContext.Provider value={{ mode, setMode }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 }
-
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (!context) {

@@ -37,23 +37,23 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   //   const session = await auth();
 
   return (
-    <ClerkProvider>
-      <html lang='en' suppressHydrationWarning>
-        <head>
-          <link
-            rel='stylesheet'
-            type='text/css'
-            href='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css'
-          />
-        </head>
-        {/* <SessionProvider session={session}> */}
-        <body className={`${inter.className} ${spaceGrotesk.variable} antialiased`}>
+    <html lang='en' suppressHydrationWarning>
+      <head>
+        <link
+          rel='stylesheet'
+          type='text/css'
+          href='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css'
+        />
+      </head>
+      {/* <SessionProvider session={session}> */}
+      <body className={`${inter.className} ${spaceGrotesk.variable} antialiased`}>
+        <ClerkProvider>
           <ThemeProvider>{children}</ThemeProvider>
-          {/* <Toaster /> */}
-        </body>
-        {/* </SessionProvider> */}
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+        {/* <Toaster /> */}
+      </body>
+      {/* </SessionProvider> */}
+    </html>
   );
 };
 
