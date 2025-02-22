@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
-// import LeftSidebar from '@/components/navigation/LeftSidebar';
-// import RightSidebar from '@/components/navigation/RightSidebar';
-import Navbar from '@/components/Navbar/Navbar';
+import Navbar from '@/components/Navigation/Navbar';
+import RightSidebar from '@/components/Navigation/RightSidebar';
+import SidebarWrapper from '@/components/shared/Wrappers/SidebarWrapper';
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -10,13 +10,13 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
       <Navbar />
 
       <div className='flex'>
-        {/* <LeftSidebar /> */}
+        <SidebarWrapper />
 
         <section className='flex flex-col flex-1 px-6 sm:px-14 pt-36 pb-6 max-md:pb-14 min-h-screen'>
           <div className='mx-auto w-full max-w-5xl'>{children}</div>
         </section>
 
-        {/* <RightSidebar /> */}
+        <RightSidebar />
       </div>
     </main>
   );

@@ -14,6 +14,10 @@ export const getAssets = () => {
     USER: '/icons/user.svg',
     QUESTION: '/icons/question.svg',
     SEARCH: '/icons/search.svg',
-    AVATAR: '/icons/avatar.svg'
+    AVATAR: '/icons/avatar.svg',
+    ARROW_RIGHT: '/icons/arrow-right.svg',
+    ARROW_LEFT: '/icons/arrow-left.svg',
+    ACCOUNT: '/icons/account.svg',
+    SIGNUP: '/icons/sign-up.svg'
   };
 };

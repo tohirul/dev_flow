@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Sidebar from '@/components/Navbar/Mobile/Sidebar';
-import ThemeWrapper from '@/components/shared/Theme/ThemeWrapper';
+import Sidebar from '@/components/Navigation/Mobile/Sidebar';
+import ThemeWrapper from '@/components/shared/Wrappers/ThemeWrapper';
 import { getAssets } from '@/utilities/assets';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 
-import Searchbar from './Searchbar/Searchbar';
+import Searching from './Searching/Searching';
 
 // import DevFlow_LOGO from '/images/site-logo.svg';
 export default async function Navbar() {
@@ -20,7 +20,7 @@ export default async function Navbar() {
         </p>
       </Link>
       {/* Global Search */}
-      <Searchbar />
+      <Searching />
       <div className='flex-between gap-5'>
         <ThemeWrapper />
         {/* Theme */}
