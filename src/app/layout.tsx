@@ -5,7 +5,7 @@ import localFont from 'next/font/local';
 
 // import { auth } from '@/auth';
 // import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/context/ThemeProvider';
+import ThemeProvider from '@/context/Theme';
 import { ClerkProvider } from '@clerk/nextjs';
 
 import './globals.css';
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   }
 };
 
-const RootLayout = async ({ children }: { children: ReactNode }) => {
+const Layout = async ({ children }: { children: ReactNode }) => {
   //   const session = await auth();
 
   return (
@@ -48,7 +48,9 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       {/* <SessionProvider session={session}> */}
       <body className={`${inter.className} ${spaceGrotesk.variable} antialiased`}>
         <ClerkProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
         </ClerkProvider>
         {/* <Toaster /> */}
       </body>
@@ -57,4 +59,4 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default RootLayout;
+export default Layout;
