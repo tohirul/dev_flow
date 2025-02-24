@@ -13,11 +13,12 @@ interface Question {
   _id: string;
   title: string;
   content: string;
+  images?: string[];
   tags: Tag[];
   author: Author;
   createdAt: Date;
   upvotes: number;
-  answers: number;
+  answers: Answer[];
   views: number;
   createdAt: Date;
 }
@@ -55,6 +56,8 @@ interface Answer {
   _id: string;
   author: Author;
   content: string;
+  upvotes: number;
+  images?: string[];
   createdAt: Date;
 }
 
@@ -68,4 +71,16 @@ interface ThemeInfo {
   label: string;
   value: string;
   icon: string;
+}
+
+interface MetricProps {
+  ICON?: string;
+  ICON_ALT_TEXT?: string;
+  value: number | string;
+  isAuthor?: boolean;
+  title: string;
+  text_style: string;
+  className?: string;
+  link?: string;
+  linkTitle?: string;
 }

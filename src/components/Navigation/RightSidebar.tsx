@@ -3,8 +3,9 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import TagCard from '@/components/cards/TagCard';
+import TagCard from '@/components/Cards/TagCard';
 import ROUTES from '@/constants/routes';
+import { getAssets } from '@/utilities/assets';
 
 const hotQuestions = [
   { _id: '1', title: 'How to create a custom hook in React?' },
@@ -23,8 +24,9 @@ const popularTags = [
 ];
 
 const RightSidebar = () => {
+  const { CHEVRON_RIGHT } = getAssets();
   return (
-    <section className='max-xl:hidden top-0 right-0 sticky flex flex-col gap-6 shadow-light-300 dark:shadow-none custom-scrollbar p-6 pt-36 light-border border-l w-[350px] h-screen overflow-y-auto background-light900_dark200'>
+    <section className='max-xl:hidden top-0 right-0 sticky flex flex-col gap-6 shadow-md dark:shadow-none custom-scrollbar p-6 pt-36 light-border border-l w-[350px] h-screen overflow-y-auto background-light900_dark200'>
       <div>
         <h3 className='text-dark200_light900 h3-bold'>Top Questions</h3>
 
@@ -36,7 +38,7 @@ const RightSidebar = () => {
               className='flex justify-between items-center gap-7 cursor-pointer'>
               <p className='text-dark500_light700 body-medium'>{title}</p>
 
-              <Image src='/icons/chevron-right.svg' alt='Chevron' width={20} height={20} className='invert-colors' />
+              <Image src={CHEVRON_RIGHT} alt='Chevron' width={20} height={20} className='invert-colors' />
             </Link>
           ))}
         </div>

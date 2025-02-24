@@ -18,6 +18,13 @@ export const getAssets = () => {
     ARROW_RIGHT: '/icons/arrow-right.svg',
     ARROW_LEFT: '/icons/arrow-left.svg',
     ACCOUNT: '/icons/account.svg',
-    SIGNUP: '/icons/sign-up.svg'
+    SIGNUP: '/icons/sign-up.svg',
+    CHEVRON_RIGHT: '/icons/chevron-right.svg',
+    CLOSE: '/icons/close.svg',
+    LIGHT_ILLUSTRATION: '/images/light-illustration.png',
+    DARK_ILLUSTRATION: '/images/dark-illustration.png',
+    LIKE: '/icons/like.svg',
+    MESSAGE: '/icons/message.svg',
+    EYE: '/icons/eye.svg'
   };
 };

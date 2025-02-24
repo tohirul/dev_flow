@@ -6,6 +6,7 @@ import Link from 'next/link';
 import ROUTES from '@/constants/routes';
 import { cn, getDeviconClassName, getTechDescription } from '@/lib/utils';
 import { Badge } from '@/ui/badge';
+import { getAssets } from '@/utilities/assets';
 
 interface Props {
   _id: string;
@@ -21,7 +22,7 @@ interface Props {
 const TagCard = ({ _id, name, questions, showCount, compact, remove, isButton, handleRemove }: Props) => {
   const iconClass = getDeviconClassName(name);
   const iconDescription = getTechDescription(name);
-
+  const { CLOSE } = getAssets();
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
   };
@@ -36,7 +37,7 @@ const TagCard = ({ _id, name, questions, showCount, compact, remove, isButton, h
 
         {remove && (
           <Image
-            src='/icons/close.svg'
+            src={CLOSE}
             width={12}
             height={12}
             alt='close icon'
