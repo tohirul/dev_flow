@@ -2,16 +2,14 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { sendResponse } from '@/lib/sendResponse';
 import Question, { IQuestion } from '@/server/models/question.model';
 import Tag, { ITag } from '@/server/models/tag.model';
 import User from '@/server/models/user.model';
 import { performAction } from '@/server/performAction';
 
-export async function createQuestion(
-  data: CreateQuestionParams,
-  path?: string
-): Promise<{ success: boolean; message: string; questionId?: string }> {
-  return await performAction<CreateQuestionParams, { success: boolean; message: string; questionId?: string }>(
+export async function createQuestion(data: CreateQuestionParams, path?: string): Promise<Response<null>> {
+  return await performAction<CreateQuestionParams, Response<null>>(
     async (session, data) => {
       if (!data) {
         throw new Error('No data provided for question creation.');
@@ -64,22 +62,16 @@ export async function createQuestion(
         revalidatePath(path);
       }
 
-      return {
-        success: true,
-        message: 'Question created successfully.',
-        questionId: createdQuestion._id.toString()
-      };
+      return sendResponse('Question created successfully', null, 201);
     },
     { transaction: true, data }
   );
 }
 
-export async function getAllQuestions(
-  params: GetAllQuestionsParams = {}
-): Promise<{ success: boolean; message: string; questions?: IQuestion[] }> {
+export async function getAllQuestions(params: GetAllQuestionsParams = {}): Promise<Response<IQuestion[]>> {
   return await performAction(
-    async (data) => {
-      const questions = await Question.find({ ...data })
+    async (data): Promise<Response<IQuestion[]>> => {
+      const questions: IQuestion[] = await Question.find({ ...data })
         .populate({
           path: 'tags',
           model: Tag,
@@ -91,11 +83,7 @@ export async function getAllQuestions(
           select: '_id clerkId name username reputation picture'
         })
         .sort({ createdAt: -1 });
-      return {
-        success: true,
-        message: 'Questions fetched successfully.',
-        questions: questions
-      };
+      return sendResponse<IQuestion[]>('All questions fetched successfully', questions, 200);
     },
     { transaction: false, data: { ...params } }
   );

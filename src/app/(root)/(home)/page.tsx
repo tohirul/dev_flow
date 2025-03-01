@@ -13,9 +13,11 @@ import ROUTES from '@/constants/routes';
 import { getAssets } from '@/lib/assets';
 import { getAllQuestions } from '@/server/actions/question.action';
 
-async function fetchQuestions() {
+async function fetchQuestions(): Promise<Response<Question[]>> {
   // Simulate a server-side fetch
-  return await getAllQuestions({});
+  const response = await getAllQuestions({});
+
+  return await response.json();
 }
 
 export default async function Home() {
@@ -51,10 +53,8 @@ export default async function Home() {
 
       {/* Questions */}
       <div className='mt-10 flex w-full flex-col gap-6'>
-        {result?.questions?.length ? (
-          result?.questions.map((question) => (
-            <QuestionCard key={question.id} question={question as unknown as Question} />
-          ))
+        {result?.data?.length ? (
+          result?.data.map((question) => <QuestionCard key={question.id} question={question} />)
         ) : (
           <NotFound
             title="There's no question to show"

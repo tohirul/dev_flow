@@ -43,6 +43,15 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
+// Remove user's questions when user is deleted
+UserSchema.pre('findOneAndDelete', async function (next) {
+  const user = await this.model.findOne(this.getFilter()); // Get user to be deleted
+  if (user) {
+    await user.model('Question').deleteMany({ _id: { $in: user.userQuestions } });
+  }
+  next();
+});
+
 // UserSchema.index({ email: 1 });
 // UserSchema.index({ username: 1 });
 // UserSchema.index({ clerkId: 1 });

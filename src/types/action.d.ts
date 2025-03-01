@@ -16,6 +16,24 @@ interface AuthCredentials {
   password: string;
 }
 
+interface CreateUserParams {
+  clerkId: string;
+  name: string;
+  username: string;
+  email: string;
+  password?: string;
+  bio?: string;
+  picture: string;
+  address?: string;
+  portfolioWebsite?: string;
+  reputation?: number;
+  saved?: string[];
+  joinedAt?: Date;
+  createdAt?: Date;
+  id?: string;
+}
+type UpdateUserParams = Partial<CreateUserParams>;
+
 interface CreateQuestionParams {
   title: string;
   content: string;

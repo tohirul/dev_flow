@@ -1,3 +1,6 @@
+import { revalidatePath } from 'next/cache';
+
+import { sendResponse } from '@/lib/sendResponse';
 import User, { IUser } from '@/server/models/user.model';
 import { performAction } from '@/server/performAction';
 
@@ -80,4 +83,78 @@ export async function getUsers(): Promise<IUser[] | null> {
     console.error('Error fetching users:', error);
     return null;
   }
+}
+
+export async function createUser(data: CreateUserParams): Promise<Response<null>> {
+  return await performAction<CreateUserParams, Response<null>>(
+    async (session, data) => {
+      if (!data) {
+        throw new Error('Data is undefined');
+      }
+      const newUser = await User.create([data], { session });
+      if (!newUser) {
+        throw new Error('Failed to create user');
+      }
+
+      return sendResponse('User Successfully Created', null, 201);
+    },
+    {
+      transaction: true,
+      data
+    }
+  );
+}
+
+export async function updateUser(data: {
+  clerkId: string;
+  updateData: { email: string; name: string; username: string; picture: string };
+  path: string;
+}): Promise<Response<null>> {
+  return await performAction<
+    {
+      clerkId: string;
+      updateData: { email: string; name: string; username: string; picture: string };
+      path: string;
+    },
+    Response<null>
+  >(
+    async (session, data) => {
+      if (!data) {
+        throw new Error('Data is undefined');
+      }
+      const { clerkId, updateData, path } = data;
+      const user = await User.findOneAndUpdate(
+        { clerkId },
+        {
+          ...updateData
+        },
+        { new: true }
+      );
+      if (!user) {
+        throw new Error('Failed to update user');
+      }
+      revalidatePath(path);
+      return sendResponse('User Successfully Updated', null, 200);
+    },
+    { transaction: true, data }
+  );
+}
+
+export async function deleteUser({ clerkId }: { clerkId: string }): Promise<Response<null>> {
+  return await performAction<{ clerkId: string }, Response<null>>(
+    async (session, data) => {
+      if (!data) {
+        throw new Error('Data is undefined');
+      }
+      const { clerkId } = data;
+      const user = await User.findOneAndDelete({ clerkId });
+      if (!user) {
+        throw new Error('Failed to delete user');
+      }
+      // find user questions
+        
+      return sendResponse('User Successfully Deleted', null, 200);
+    },
+    { transaction: true, data: { clerkId } }
+  );
 }

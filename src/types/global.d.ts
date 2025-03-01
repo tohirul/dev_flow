@@ -85,3 +85,10 @@ interface MetricProps {
   link?: string;
   linkTitle?: string;
 }
+
+interface Response<T> {
+  success: boolean;
+  message: string;
+  data?: T | null;
+  error?: { name?: string; message: string };
+}
