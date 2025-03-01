@@ -27,7 +27,7 @@ const LocalSearch = ({
         <Input
           type='text'
           placeholder={placeholder}
-          className='shadow-none border-none outline-none paragraph-regular no-focus placeholder'
+          className='paragraph-regular no-focus placeholder border-none shadow-none outline-none'
         />
         {iconPosition === 'right' && (
           <Image src={icon} alt='Search' width={24} height={24} className='cursor-pointer' />

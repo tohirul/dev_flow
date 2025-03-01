@@ -1,21 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { getAssets } from '@/utilities/assets';
+import { getAssets } from '@/lib/assets';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 
 import Searchbar from '../Searching/GlobalSearch';
 import ThemeWrapper from '../shared/Wrappers/ThemeWrapper';
-import { Sidebar } from 'lucide-react';
+import Sidebar from './Mobile/Sidebar';
 
 // import DevFlow_LOGO from '/images/site-logo.svg';
 export default async function Navbar() {
   const { DEVFLOW_LOGO } = getAssets();
   return (
-    <nav className='z-50 fixed flex-between gap-5 shadow-light-300 dark:shadow-none p-6 sm:px-12 w-full background-light900_dark200'>
+    <nav className='flex-between background-light900_dark200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12'>
       <Link href='/' className='flex items-center gap-2'>
         <Image src={DEVFLOW_LOGO} alt='DevFlow Logo' width={23} height={23} />
-        <p className='max-sm:hidden font-spaceGrotesk text-dark-100 dark:text-light-900 h2-bold'>
+        <p className='font-spaceGrotesk h2-bold text-dark-100 dark:text-light-900 max-sm:hidden'>
           <span className='text-primary-500'>Dev</span>Over<span className='text-primary-500'>Flow</span>
         </p>
       </Link>

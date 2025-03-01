@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 const FilterTags = () => {
   const active = '';
   return (
-    <div className='hidden md:flex flex-wrap gap-3 mt-10'>
+    <div className='mt-10 hidden flex-wrap gap-3 md:flex'>
       {HomePageFilters.map((filter) => {
         return (
           <button

@@ -11,6 +11,10 @@ export default {
       colors: {
         primary: {
           '100': '#FFF1E6',
+          '200': '#FFC990',
+          '300': '#FFB560',
+          '400': '#FFA130',
+
           '500': '#FF7000'
         },
         dark: {

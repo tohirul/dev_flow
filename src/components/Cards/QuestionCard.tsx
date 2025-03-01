@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 import TagCard from '@/components/Cards/TagCard';
 import Metric from '@/components/shared/Metric/Metric';
+import { getAssets } from '@/lib/assets';
 import { formatNumber, getTimeStamp } from '@/lib/utils';
-import { getAssets } from '@/utilities/assets';
 
 const QuestionCard = ({ question }: { question: Question }) => {
   // Render question card component here
@@ -14,22 +14,22 @@ const QuestionCard = ({ question }: { question: Question }) => {
   const { AVATAR, EYE, LIKE, MESSAGE } = getAssets();
 
   return (
-    <div className='p-9 px-4 sm:px-11 rounded-[10px] card-wrapper'>
-      <div className='flex sm:flex-row flex-col-reverse justify-between items-start gap-5'>
+    <div className='card-wrapper rounded-[10px] p-9 px-4 sm:px-11'>
+      <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
         <div>
-          <span className='sm:hidden flex my-2 text-dark400_light700 line-clamp-1 subtitle-regular'>
+          <span className='text-dark400_light700 subtitle-regular my-2 line-clamp-1 flex sm:hidden'>
             {getTimeStamp(createdAt)}
           </span>
           <Link href={`/questions/${question._id}`}>
-            <h3 className='flex-1 text-dark-200_light900 line-clamp-1 sm:h3-semibold base-semibold'>{title}</h3>
+            <h3 className='text-dark-200_light900 sm:h3-semibold base-semibold line-clamp-1 flex-1'>{title}</h3>
           </Link>
-          <p className='flex flex-1 mt-1.5 sm:mt-3.5 line-clamp-2'>{content}</p>
-          <div className='flex flex-wrap gap-2 mt-3 5'>
+          <p className='mt-1.5 line-clamp-2 flex flex-1 sm:mt-3.5'>{content}</p>
+          <div className='5 mt-3 flex flex-wrap gap-2'>
             {tags.map((tag) => (
               <TagCard key={tag._id} _id={tag._id} name={tag.name} compact={true} />
             ))}
           </div>
-          <div className='flex-wrap flex-between gap-3 mt-6 w-full'>
+          <div className='flex-between mt-6 w-full flex-wrap gap-3'>
             <Metric
               ICON={AVATAR}
               ICON_ALT_TEXT='user'

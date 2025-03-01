@@ -7,9 +7,9 @@ import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
 import { themes } from '@/constants/themes';
+import { getAssets } from '@/lib/assets';
 import { Button } from '@/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/ui/dropdown-menu';
-import { getAssets } from '@/utilities/assets';
 
 const Theme = () => {
   const { theme: currentTheme, setTheme } = useTheme();

@@ -10,7 +10,7 @@ import NotFound from '@/components/shared/NotFound/NotFound';
 import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/filters';
 import ROUTES from '@/constants/routes';
-import { getAssets } from '@/utilities/assets';
+import { getAssets } from '@/lib/assets';
 
 export default function Home() {
   const { SEARCH } = getAssets();
@@ -107,14 +107,14 @@ export default function Home() {
   ];
   return (
     <section>
-      <div className='flex sm:flex-row flex-col-reverse justify-between sm:items-center gap-4 w-full'>
-        <h1 className='text-dark100_light900 text-center h1-bold'>All Questions</h1>
+      <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
+        <h1 className='text-dark100_light900 h1-bold text-center'>All Questions</h1>
 
-        <Button className='mx-auto sm:mx-0 px-4 py-3 max-w-56 min-h-[46px] !text-light-900 primary-gradient' asChild>
+        <Button className='primary-gradient mx-auto min-h-[46px] max-w-56 px-4 py-3 !text-light-900 sm:mx-0' asChild>
           <Link href={ROUTES.ASK_QUESTION}>Ask a Question</Link>
         </Button>
       </div>
-      <div className='flex max-sm:flex-col justify-between sm:items-center gap-5 mt-11'>
+      <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         {/* Local Search */}
         <LocalSearch
           route={ROUTES.HOME}
@@ -134,7 +134,7 @@ export default function Home() {
       <FilterTags />
 
       {/* Questions */}
-      <div className='flex flex-col gap-6 mt-10 w-full'>
+      <div className='mt-10 flex w-full flex-col gap-6'>
         {questions?.length ? (
           questions.map((question) => <QuestionCard key={question._id} question={question} />)
         ) : (

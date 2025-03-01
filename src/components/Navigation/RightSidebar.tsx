@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import TagCard from '@/components/Cards/TagCard';
 import ROUTES from '@/constants/routes';
-import { getAssets } from '@/utilities/assets';
+import { getAssets } from '@/lib/assets';
 
 const hotQuestions = [
   { _id: '1', title: 'How to create a custom hook in React?' },
@@ -26,16 +26,16 @@ const popularTags = [
 const RightSidebar = () => {
   const { CHEVRON_RIGHT } = getAssets();
   return (
-    <section className='max-xl:hidden top-0 right-0 sticky flex flex-col gap-6 shadow-md dark:shadow-none custom-scrollbar p-6 pt-36 light-border border-l w-[350px] h-screen overflow-y-auto background-light900_dark200'>
+    <section className='custom-scrollbar light-border background-light900_dark200 sticky right-0 top-0 flex h-screen w-[350px] flex-col gap-6 overflow-y-auto border-l p-6 pt-36 shadow-md dark:shadow-none max-xl:hidden'>
       <div>
         <h3 className='text-dark200_light900 h3-bold'>Top Questions</h3>
 
-        <div className='flex flex-col gap-[30px] mt-7 w-full'>
+        <div className='mt-7 flex w-full flex-col gap-[30px]'>
           {hotQuestions.map(({ _id, title }) => (
             <Link
               key={_id}
               href={ROUTES.PROFILE(_id)}
-              className='flex justify-between items-center gap-7 cursor-pointer'>
+              className='flex cursor-pointer items-center justify-between gap-7'>
               <p className='text-dark500_light700 body-medium'>{title}</p>
 
               <Image src={CHEVRON_RIGHT} alt='Chevron' width={20} height={20} className='invert-colors' />
@@ -47,7 +47,7 @@ const RightSidebar = () => {
       <div className='mt-16'>
         <h3 className='text-dark200_light900 h3-bold'>Popular Tags</h3>
 
-        <div className='flex flex-col gap-4 mt-7'>
+        <div className='mt-7 flex flex-col gap-4'>
           {popularTags.map(({ _id, name, questions }) => (
             <TagCard key={_id} _id={_id} name={name} questions={questions} showCount compact />
           ))}

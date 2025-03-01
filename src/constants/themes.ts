@@ -1,4 +1,4 @@
-import { getAssets } from '@/utilities/assets';
+import { getAssets } from '@/lib/assets';
 
 const { SUN, MOON, SYSTEM, HOME, USERS, STAR, SUITCASE, TAG, USER, QUESTION } = getAssets();
 
