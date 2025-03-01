@@ -1,9 +1,11 @@
+'use server';
+
 import { endTransaction, startTransaction } from '@/server/database';
 
 import { ClientSession } from 'mongoose';
 
 export async function performTransaction<T, R>(
-  callback: (session: ClientSession, data: T) => Promise<R>, // Updated to return a result of type R
+  callback: (session: ClientSession, data: T) => Promise<R>,
   data: T
 ): Promise<R> {
   // The function now returns a Promise of type R

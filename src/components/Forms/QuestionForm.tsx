@@ -84,7 +84,7 @@ const QuestionForm = ({ userId, isEdit = false }: { userId: string; isEdit?: boo
 
   const onSubmit = (data: z.infer<typeof createQuestionSchema>) => {
     startTransition(async () => {
-      await createQuestion({ ...data, author: userId });
+      await createQuestion({ ...data, author: userId }, '/');
 
       // ;
       router.push('/');

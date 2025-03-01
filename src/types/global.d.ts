@@ -9,7 +9,7 @@ interface Author {
   image: string;
 }
 
-interface QuestionType {
+interface Question {
   _id: string;
   title: string;
   content: string;
@@ -17,12 +17,11 @@ interface QuestionType {
   tags: Tag[];
   author: Author;
   createdAt: Date;
-
   upvotes: number;
   downvotes: number;
   answers: Answer[];
   views: number;
-  createdAt: Date;
+  id: string;
 }
 
 type ActionResponse<T = null> = {

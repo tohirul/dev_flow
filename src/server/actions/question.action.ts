@@ -1,21 +1,17 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import Question, { IQuestion } from '@/server/models/question.model';
 import Tag, { ITag } from '@/server/models/tag.model';
 import User from '@/server/models/user.model';
 import { performAction } from '@/server/performAction';
 
-interface QuestionData {
-  title: string;
-  content: string;
-  tags: string[];
-  author?: string;
-}
-
 export async function createQuestion(
-  data: QuestionData
+  data: CreateQuestionParams,
+  path?: string
 ): Promise<{ success: boolean; message: string; questionId?: string }> {
-  return await performAction<QuestionData, { success: boolean; message: string; questionId?: string }>(
+  return await performAction<CreateQuestionParams, { success: boolean; message: string; questionId?: string }>(
     async (session, data) => {
       if (!data) {
         throw new Error('No data provided for question creation.');
@@ -30,9 +26,10 @@ export async function createQuestion(
         throw new Error('Failed to create question.');
       }
 
-      const createdQuestion = questions[0]; // First created question
+      const createdQuestion = questions[0];
       const tagDocuments: ITag[] = [];
 
+      // Handle tags if provided
       if (tags && tags.length > 0) {
         for (const tag of tags) {
           const existingTag = await Tag.findOneAndUpdate(
@@ -55,13 +52,17 @@ export async function createQuestion(
         { session }
       );
 
+      // Update user with the new question
       await User.findByIdAndUpdate(
         createdQuestion.author,
-        {
-          $push: { userQuestions: createdQuestion._id }
-        },
+        { $push: { userQuestions: createdQuestion._id } },
         { session }
       );
+
+      // Only revalidate the path if the entire transaction was successful
+      if (path) {
+        revalidatePath(path);
+      }
 
       return {
         success: true,
@@ -73,10 +74,12 @@ export async function createQuestion(
   );
 }
 
-export async function getAllQuestions(): Promise<{ success: boolean; message: string; results?: IQuestion[] }> {
+export async function getAllQuestions(
+  params: GetAllQuestionsParams = {}
+): Promise<{ success: boolean; message: string; questions?: IQuestion[] }> {
   return await performAction(
-    async () => {
-      const questions = await Question.find({})
+    async (data) => {
+      const questions = await Question.find({ ...data })
         .populate({
           path: 'tags',
           model: Tag,
@@ -85,15 +88,15 @@ export async function getAllQuestions(): Promise<{ success: boolean; message: st
         .populate({
           path: 'author',
           model: User,
-          select: '_id clerkId name picture'
+          select: '_id clerkId name username reputation picture'
         })
         .sort({ createdAt: -1 });
       return {
         success: true,
         message: 'Questions fetched successfully.',
-        results: questions
+        questions: questions
       };
     },
-    { transaction: false, data: {} }
+    { transaction: false, data: { ...params } }
   );
 }

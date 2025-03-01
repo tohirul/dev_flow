@@ -23,7 +23,9 @@ const QuestionCard = ({ question }: { question: Question }) => {
           <Link href={`/questions/${question._id}`}>
             <h3 className='text-dark-200_light900 sm:h3-semibold base-semibold line-clamp-1 flex-1'>{title}</h3>
           </Link>
-          <p className='mt-1.5 line-clamp-2 flex flex-1 sm:mt-3.5'>{content}</p>
+          <p className='mt-1.5 line-clamp-2 flex flex-1 sm:mt-3.5'>
+            {content?.length > 200 ? content.slice(0, 200) + ' . . .' : content}
+          </p>
           <div className='5 mt-3 flex flex-wrap gap-2'>
             {tags.map((tag) => (
               <TagCard key={tag._id} _id={tag._id} name={tag.name} compact={true} />

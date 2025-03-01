@@ -20,10 +20,15 @@ interface CreateQuestionParams {
   title: string;
   content: string;
   tags: string[];
+  author: string;
 }
 
 interface EditQuestionParams extends CreateQuestionParams {
   questionId: string;
+}
+
+interface GetAllQuestionsParams extends PaginatedSearchParams {
+  searchQuery?: string;
 }
 
 interface GetQuestionParams {

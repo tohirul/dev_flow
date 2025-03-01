@@ -1,4 +1,4 @@
-'use client';
+'use server';
 
 import Link from 'next/link';
 
@@ -11,100 +11,16 @@ import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/filters';
 import ROUTES from '@/constants/routes';
 import { getAssets } from '@/lib/assets';
+import { getAllQuestions } from '@/server/actions/question.action';
 
-export default function Home() {
+async function fetchQuestions() {
+  // Simulate a server-side fetch
+  return await getAllQuestions({});
+}
+
+export default async function Home() {
   const { SEARCH } = getAssets();
-  const questions: Question[] = [
-    {
-      _id: '1',
-      title: 'How to use Next.js?',
-      content: 'I want to learn how to use Next.js for my next project.',
-      tags: [
-        { _id: '1', name: 'nextjs' },
-        { _id: '2', name: 'react' }
-      ],
-      author: {
-        _id: '1',
-        name: 'John Doe',
-        image: 'https://example.com/avatar.png'
-      },
-      upvotes: 10,
-      views: 1003267,
-      answers: [
-        {
-          _id: '1',
-          content: 'This is the first answer.',
-          author: {
-            _id: '2',
-            name: 'Jane Smith',
-            image: 'https://example.com/avatar.png'
-          },
-          upvotes: 5,
-          createdAt: new Date('2022-01-01T12:00:00')
-        },
-        {
-          _id: '2',
-          content: 'This is the second answer.',
-          author: {
-            _id: '3',
-            name: 'Bob Johnson',
-            image: 'https://example.com/avatar.png'
-          },
-          upvotes: 3,
-          createdAt: new Date('2022-01-01T12:00:00')
-        }
-      ],
-      createdAt: new Date('2022-01-01T12:00:00')
-    },
-    {
-      _id: '2',
-      title: 'How to use React?',
-      content: 'I want to learn how to use React for my next project.',
-      tags: [
-        { _id: '3', name: 'react' },
-        { _id: '4', name: 'javascript' }
-      ],
-      author: {
-        _id: '4',
-        name: 'Alice Johnson',
-        image: 'https://example.com/avatar.png'
-      },
-      upvotes: 5,
-      views: 50,
-      answers: [
-        {
-          _id: '3',
-          content: 'This is the third answer.',
-          author: {
-            _id: '5',
-            name: 'Emily Davis',
-            image: 'https://example.com/avatar.png'
-          },
-          upvotes: 2,
-          createdAt: new Date('2022-01-02T12:00:00')
-        }
-      ],
-      createdAt: new Date('2022-01-02T12:00:00')
-    },
-    {
-      _id: '3',
-      title: 'How to use JavaScript?',
-      content: 'I want to learn how to use JavaScript for my next project.',
-      tags: [
-        { _id: '5', name: 'javascript' },
-        { _id: '6', name: 'web' }
-      ],
-      author: {
-        _id: '6',
-        name: 'Michael Brown',
-        image: 'https://example.com/avatar.png'
-      },
-      upvotes: 3,
-      views: 30,
-      answers: [],
-      createdAt: new Date('2022-01-03T12:00:00')
-    }
-  ];
+  const result = await fetchQuestions();
   return (
     <section>
       <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
@@ -135,8 +51,10 @@ export default function Home() {
 
       {/* Questions */}
       <div className='mt-10 flex w-full flex-col gap-6'>
-        {questions?.length ? (
-          questions.map((question) => <QuestionCard key={question._id} question={question} />)
+        {result?.questions?.length ? (
+          result?.questions.map((question) => (
+            <QuestionCard key={question.id} question={question as unknown as Question} />
+          ))
         ) : (
           <NotFound
             title="There's no question to show"
