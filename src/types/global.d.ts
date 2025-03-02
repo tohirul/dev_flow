@@ -92,3 +92,10 @@ interface Response<T> {
   data?: T | null;
   error?: { name?: string; message: string };
 }
+
+interface QuestionFormType {
+  tags: string[];
+  title: string;
+  content: string;
+  images?: string[] | undefined;
+}

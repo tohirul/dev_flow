@@ -13,7 +13,7 @@ export async function sendResponse<T>(
     success: status < 400,
     message: 'Questions fetched successfully.'
   };
-  if (!data === null) response.data = data;
+  if (data !== null) response.data = data;
   if (error)
     response.error = {
       message: error.message

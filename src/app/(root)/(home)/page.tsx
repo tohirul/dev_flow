@@ -54,7 +54,10 @@ export default async function Home() {
       {/* Questions */}
       <div className='mt-10 flex w-full flex-col gap-6'>
         {result?.data?.length ? (
-          result?.data.map((question) => <QuestionCard key={question.id} question={question} />)
+          result?.data.map((question) => {
+            question._id = question._id.toString();
+            return <QuestionCard key={question._id} question={JSON.parse(JSON.stringify(question))} />;
+          })
         ) : (
           <NotFound
             title="There's no question to show"

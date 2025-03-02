@@ -8,14 +8,16 @@ import Tag, { ITag } from '@/server/models/tag.model';
 import User from '@/server/models/user.model';
 import { performAction } from '@/server/performAction';
 
-export async function createQuestion(data: CreateQuestionParams, path?: string): Promise<Response<null>> {
-  return await performAction<CreateQuestionParams, Response<null>>(
+export async function createQuestion(
+  data: CreateQuestionParams
+): Promise<{ success: boolean; message: string; data: IQuestion }> {
+  return await performAction<CreateQuestionParams, { success: boolean; message: string; data: IQuestion }>(
     async (session, data) => {
       if (!data) {
         throw new Error('No data provided for question creation.');
       }
 
-      const { title, content, tags, author } = data;
+      const { title, content, tags, author, path } = data;
 
       // Create the question document within the transaction session
       const questions = await Question.create([{ title, content, tags: [], author }], { session });
@@ -59,10 +61,15 @@ export async function createQuestion(data: CreateQuestionParams, path?: string):
 
       // Only revalidate the path if the entire transaction was successful
       if (path) {
+        console.log('revalidatePath: ', path);
         revalidatePath(path);
       }
 
-      return sendResponse('Question created successfully', null, 201);
+      return {
+        success: true,
+        message: 'Question created successfully',
+        data: JSON.parse(JSON.stringify(createdQuestion))
+      };
     },
     { transaction: true, data }
   );
@@ -83,7 +90,11 @@ export async function getAllQuestions(params: GetAllQuestionsParams = {}): Promi
           select: '_id clerkId name username reputation picture'
         })
         .sort({ createdAt: -1 });
-      return sendResponse<IQuestion[]>('All questions fetched successfully', questions, 200);
+      return sendResponse<IQuestion[]>(
+        'All questions fetched successfully',
+        JSON.parse(JSON.stringify(questions)),
+        200
+      );
     },
     { transaction: false, data: { ...params } }
   );

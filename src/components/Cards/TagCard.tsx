@@ -1,12 +1,13 @@
-import React from 'react';
+'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
+// Import useRouter hook
+import TagBadge from '@/components/shared/TagBadge/TagBadge';
 import ROUTES from '@/constants/routes';
-import { getAssets } from '@/lib/assets';
 import { cn, getDeviconClassName, getTechDescription } from '@/lib/utils';
-import { Badge } from '@/ui/badge';
+
+import { ControllerRenderProps, UseFormSetError, UseFormSetValue } from 'react-hook-form';
 
 interface Props {
   _id: string;
@@ -15,56 +16,59 @@ interface Props {
   showCount?: boolean;
   compact?: boolean;
   remove?: boolean;
-  isButton?: boolean;
-  handleRemove?: () => void;
+  tag?: string;
+  field?: ControllerRenderProps<
+    { tags: string[]; title: string; content: string; images?: string[] | undefined },
+    'tags'
+  >;
+  setValue?: UseFormSetValue<{ tags: string[]; title: string; content: string; images?: string[] | undefined }>;
+  setError?: UseFormSetError<{ tags: string[] }>;
+  clearErrors?: () => void;
 }
 
-const TagCard = ({ _id, name, questions, showCount, compact, remove, isButton, handleRemove }: Props) => {
+const TagCard = ({
+  _id,
+  name,
+  questions = 0,
+  showCount = false,
+  compact = false,
+  remove = false,
+  tag,
+  field,
+  setValue,
+  setError,
+  clearErrors
+}: Props) => {
+  const router = useRouter(); // Initialize the router
   const iconClass = getDeviconClassName(name);
   const iconDescription = getTechDescription(name);
-  const { CLOSE } = getAssets();
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+
+  const handleCardClick = () => {
+    // Programmatically navigate to the route without using Link
+    router.push(ROUTES.TAG(_id)); // Redirect to the tag route
   };
 
-  const Content = (
-    <>
-      <Badge className='text-light400_light500 subtle-medium background-light800_dark300 flex flex-row gap-2 rounded-md border-none px-4 py-2 uppercase'>
-        <div className='flex-center space-x-2'>
-          <i className={`${iconClass} text-sm`}></i>
-          <span>{name}</span>
-        </div>
-
-        {remove && (
-          <Image
-            src={CLOSE}
-            width={12}
-            height={12}
-            alt='close icon'
-            className='cursor-pointer object-contain invert-0 dark:invert'
-            onClick={handleRemove}
-          />
-        )}
-      </Badge>
-
-      {showCount && <p className='text-dark500_light700 small-medium'>{questions}</p>}
-    </>
-  );
-
   if (compact) {
-    return isButton ? (
-      <button onClick={handleClick} className='flex justify-between gap-2'>
-        {Content}
-      </button>
-    ) : (
-      <Link href={ROUTES.TAG(_id)} className='flex justify-between gap-2'>
-        {Content}
-      </Link>
+    return (
+      <TagBadge
+        _id={_id}
+        name={name}
+        iconClass={iconClass}
+        remove={remove}
+        showCount={showCount}
+        questions={questions}
+        tag={tag || ''}
+        field={field!}
+        setValue={setValue!}
+        setError={setError!}
+        clearErrors={clearErrors!}
+      />
     );
   }
 
+  // Only pass necessary information here
   return (
-    <Link href={ROUTES.TAG(_id)} className='shadow-light100_darknone'>
+    <div className='shadow-light100_darknone cursor-pointer' onClick={handleCardClick}>
       <article className='light-border background-light900_dark200 flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]'>
         <div className='flex items-center justify-between gap-3'>
           <div className='background-light800_dark400 w-fit rounded-sm px-5 py-1.5'>
@@ -80,7 +84,7 @@ const TagCard = ({ _id, name, questions, showCount, compact, remove, isButton, h
           Questions
         </p>
       </article>
-    </Link>
+    </div>
   );
 };
 

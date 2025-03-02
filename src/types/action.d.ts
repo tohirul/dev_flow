@@ -39,6 +39,7 @@ interface CreateQuestionParams {
   content: string;
   tags: string[];
   author: string;
+  path?: string;
 }
 
 interface EditQuestionParams extends CreateQuestionParams {

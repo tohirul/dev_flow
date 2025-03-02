@@ -1,3 +1,5 @@
+'use server';
+
 import React from 'react';
 
 import Image from 'next/image';
@@ -8,7 +10,7 @@ import { cn } from '@/lib/utils';
 const Metric = ({ ICON, ICON_ALT_TEXT, value, title, text_style, isAuthor, link }: MetricProps) => {
   const MetricContent = () => {
     return (
-      <React.Fragment>
+      <>
         <div className='flex items-center gap-1'>
           {ICON && ICON_ALT_TEXT && (
             <Image
@@ -26,7 +28,7 @@ const Metric = ({ ICON, ICON_ALT_TEXT, value, title, text_style, isAuthor, link 
             </p>
           )}
         </div>
-      </React.Fragment>
+      </>
     );
   };
   return link ? <Link href={link}>{<MetricContent />}</Link> : <MetricContent />;

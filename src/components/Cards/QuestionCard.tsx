@@ -1,4 +1,4 @@
-import React from 'react';
+'use server';
 
 import Link from 'next/link';
 
@@ -10,7 +10,7 @@ import { formatNumber, getTimeStamp } from '@/lib/utils';
 const QuestionCard = ({ question }: { question: Question }) => {
   // Render question card component here
   // Display question title, content, author, upvotes, views, and answers
-  const { title, content, author, upvotes, views, answers, tags, createdAt } = question;
+  const { _id, title, content, author, upvotes, views, answers, tags, createdAt } = question as Question;
   const { AVATAR, EYE, LIKE, MESSAGE } = getAssets();
 
   return (
@@ -20,7 +20,7 @@ const QuestionCard = ({ question }: { question: Question }) => {
           <span className='text-dark400_light700 subtitle-regular my-2 line-clamp-1 flex sm:hidden'>
             {getTimeStamp(createdAt)}
           </span>
-          <Link href={`/questions/${question._id}`}>
+          <Link href={`/questions/${_id}`}>
             <h3 className='text-dark-200_light900 sm:h3-semibold base-semibold line-clamp-1 flex-1'>{title}</h3>
           </Link>
           <p className='mt-1.5 line-clamp-2 flex flex-1 sm:mt-3.5'>
